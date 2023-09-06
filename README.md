@@ -15,12 +15,10 @@ This front end should be invoked with the following parameters:
 
 full url examples:
 [https://baze.cm-maia.pt/BaZe/catalogo2.htm](https://baze.cm-maia.pt/BaZe/catalogo2.htm)
-
 ![without parameters](./pics/Slide2.PNG "without parameters")
 
 [https://baze.cm-maia.pt/BaZe/catalogo2.htm?e0=NInstCult](https://baze.cm-maia.pt/BaZe/catalogo2.htm?e0=NInstCult)
-
-![defining series' name (e0)]("./pics/Slide3.PNG" "defining series' name (e0)")
+![defining series' name (e0)](./pics/Slide3.PNG "defining series' name (e0)")
 
 
 ## Main tasks
