@@ -32,5 +32,6 @@ The page starts (onload=....) by lecat()
 - $getjson (JQuery) to get and parse end endpoint response (JSON)
 - the JSON response is parsed and the left lateral menu of the console is built:
 
+(to be continued...)
 
 = The end
