@@ -14,8 +14,13 @@ This front end should be invoked with the following parameters:
 - x=<keypass> - value of a keypass that allows editing the metadata 
 
 full url examples:
-https://baze.cm-maia.pt/BaZe/catalogo2.htm?chart=off&x=<keypass>&e0=0008231
-https://baze.cm-maia.pt/BaZe/catalogo2.htm?chart=off&x=<keypass>&e0=NInstCult
+[https://baze.cm-maia.pt/BaZe/catalogo2.htm](https://baze.cm-maia.pt/BaZe/catalogo2.htm)
+
+![without parameters](./pics/Slide2.png "without parameters")
+
+[https://baze.cm-maia.pt/BaZe/catalogo2.htm?e0=NInstCult](https://baze.cm-maia.pt/BaZe/catalogo2.htm?e0=NInstCult)
+![without parameters](./pics/Slide3.png "defining series' name (e0)")
+
 
 ## Main tasks
 
@@ -25,8 +30,8 @@ The page starts (onload=....) by lecat()
 - settting layout dimensions
 - parsing the current url and extracts charting, keypass, lista () and (short) name of the series to be accessed
 - composes url to call endpoint http(...)/api/api4scat.php - api catalog of available series
-- $getjson (JQuery) to get and parse end endpoint response
-- the response is parsed and the left lateral menu of the console is buil
+- $getjson (JQuery) to get and parse end endpoint response (JSON)
+- the JSON response is parsed and the left lateral menu of the console is built:
 
 
 = The end
