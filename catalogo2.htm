@@ -1,0 +1,897 @@
+﻿<!doctype html>
+<html lang="pt">
+<head>
+
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
+<link rel="icon" type="image/x-icon" href="./pics/DALLE 2023-02-06 11.59.09.png">
+
+<!---  LOCAL
+
+<script src="../../jquery/jquery-1.11.0.min.js"></script>
+-->
+<!--
+<script src="../../omegax/Highcharts-9.3.2/code/highcharts.js"></script>
+<script src="../../omegax/Highcharts-9.3.2/code/modules/series-label.js"></script>
+<script src="../../omegax/Highcharts-9.3.2/code/modules/exporting.js"></script>
+<script src="../../omegax/Highcharts-9.3.2/code/modules/export-data.js"></script>
+<script src="../../omegax/Highcharts-9.3.2/code/modules/accessibility.js"></script>
+-->
+
+<!--- WEB -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<!--
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+-->
+<style>
+textarea {
+  width: 98%;
+  height: 8vh;
+  display: block;
+ }
+</style>
+
+<!--
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+-->
+
+<script src="https://cdn.tiny.cloud/1/wy9ut1pk6p5workp921xyvul6jn01kkr160y4y9w45anfroa/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+
+<script>
+$.ajaxSetup({ async: false})
+
+var rs
+var loca
+var xart
+loca=window.location.origin
+
+var lis
+var sle
+lis=[		"Acção Social", "Administração Pública e Serviços", "Ambiente", "Cultura e Património",
+			"Economia", "Educação", "Energia", "Habitação", "Lazer e Desporto", "Mobilidade",
+			"Planeamento Urbano", "População", "Saúde", "Segurança" ,"Outros"]
+
+
+lis2=[ "número", "%", "&permil;", "m2", "m3", "km2", "km3", "metro (linear)", "euro (€)", "kWh", "ºC", "db(A)", "Ton", "&micro;g/m3", "minutos", "mm:ss" ]
+
+lis3=[ "freguesia", "concelho", "NUTS III", "NUTS II", "NUTS I", "outros (...)" ]
+
+lis4=[ "trimestral", "semestral", "anual", "mensal", "diário","ad-hoc" ]
+
+lis5 = ["manual", "REST API", "acesso de leitura DB", "ficheiro manual", "ficheiro automático"]
+
+lis6 = ["sofia.maia@cm-maia.pt", "marcia.batists@cm-maia.pt", "bruno.figueiredo@cm-maia.pt", "emanuel.ferreira@cm-maia.pt", "não atribuído"]
+
+
+
+//asel = document.createElement
+asel = document.createElement("select")
+for (cop in lis)
+{
+	uopc=document.createElement("option")
+	uopc.value=lis[cop]
+	uopc.innerHTML=lis[cop]
+	asel.appendChild(uopc)
+	asel.style="font-family:montserrat;"
+}
+
+asel2 = document.createElement("select")
+for (cop in lis2)
+{
+	uopc=document.createElement("option")
+	uopc.value=lis2[cop]
+	uopc.innerHTML=lis2[cop]
+	asel2.appendChild(uopc)
+	asel2.style="font-family:montserrat;"
+}
+
+asel3 = document.createElement("select")
+for (cop in lis3)
+{
+	uopc=document.createElement("option")
+	uopc.value=lis3[cop]
+	uopc.innerHTML=lis3[cop]
+	asel3.appendChild(uopc)
+	asel3.style="font-family:montserrat;"
+}
+
+
+asel4 = document.createElement("select")
+for (cop in lis4)
+{
+	uopc=document.createElement("option")
+	uopc.value=lis4[cop]
+	uopc.innerHTML=lis4[cop]
+	asel4.appendChild(uopc)
+	asel4.style="font-family:montserrat;"
+}
+
+asel5 = document.createElement("select")
+for (cop in lis5)
+{
+	uopc=document.createElement("option")
+	uopc.value=lis5[cop]
+	uopc.innerHTML=lis5[cop]
+	asel5.appendChild(uopc)
+	asel5.style="font-family:montserrat;"
+}
+
+
+asel6 = document.createElement("select")
+for (cop in lis6)
+{
+	uopc=document.createElement("option")
+	uopc.value=lis6[cop]
+	uopc.innerHTML=lis6[cop]
+	asel6.appendChild(uopc)
+	asel6.style="font-family:montserrat;"
+}
+
+
+
+var url
+var urlth
+var e0
+var be
+function lecat()
+{	
+	altura=window.innerHeight
+	document.getElementById("ot").style.height=(altura*1-80)+"px"
+	//console.log("seth", altura)
+
+	queryString = window.location.search;
+	//console.log("queryString:", queryString)
+	es = new URLSearchParams(window.location.search)
+	//console.log("es:", typeof(es))
+	
+	e0 = es.get('e0')
+	lista=es.get('lista')
+	//be=e0.split(e0, "?")
+	//e0=be[0]
+	//console.log("e0:", e0)
+	//console.log("typeof(e0):", typeof(e0))
+	xav = es.get('x')
+	xart=es.get("chart")	
+
+	if (xart!=null)
+	xart=es.get("chart").toLowerCase()
+
+
+
+
+	if (xart!="off")
+		xart="on"
+
+	if (loca=="http://localhost")
+	{
+		url="http://localhost/D4Maia/Data exposure/api/api4scat.php?";
+		if (e0!=null)
+		url=url+"e0="+e0;
+
+		if (xav!=null)
+		url=url+"x="+xav;
+
+	}
+	else
+	{
+		url="https://baze.cm-maia.pt/BaZe/api/api4scat.php?";
+		if (e0!=null)
+		url=url+"e0="+e0;
+
+		if (xav!=null)
+		url=url+"&xav="+xav;
+
+	}//url="http://d4m.atwebpages.com/api/api4s.php";
+	urlth=url
+	//console.log("urlth"+url)
+
+	$.getJSON(urlth, function(r){
+
+		rs=JSON.parse(JSON.stringify(r))
+		//console.log("rs:", rs)
+		rs=r
+
+		for (i in rs.lista)
+		{		
+			ta=lis.indexOf(rs.lista[i]['tema'])
+			if (ta==-1)
+			{	ta=5
+			}
+			tad="s"+ta 
+			//console.log("tad:", tad)
+			sle=document.createElement("li")
+			sle.title=rs.lista[i]['nome']
+			sle.nome=rs.lista[i]['nome']
+			sle.descri=rs.lista[i]['descrição']
+
+			//console.log("sle.onmouseover")
+			sle.onmouseover=function(){alf(this.nome); this.style.background='khaki'}
+			sle.onmouseout=function(){this.style.background="";}
+			if (sle.nome==e0)
+			{		document.getElementById(tad).style.display="";
+					if (lista=="sigla")
+						sle.innerHTML = "<b>" +	rs.lista[i]['nome'] + "</b>"
+					else
+					{	//sle.innerHTML = "<b>" +	rs.lista[i]['nome'] + "</b>"
+						sle.innerHTML = "<b>" +	rs.lista[i]['descrição'] + "</b>"
+					}
+					w=setTimeout(function(){alf(e0), 1000})
+					
+			}
+			else
+			{	
+				if (lista=="sigla")
+				sle.innerHTML =	rs.lista[i]['nome']
+				else
+				sle.innerHTML =	rs.lista[i]['descrição']
+
+			}
+
+			document.getElementById(tad).appendChild(sle)	
+		}
+
+	})
+}
+
+function cxdem(rit, a, b)
+{
+
+	if (loca=="http://localhost")
+	{
+		url2f = "../Data exposure/api/xdem.php?nome="+a+"&nv="+b+""
+	}
+	else
+	{
+		url2f = "./api/xdem.php?rit="+rit+"&nome="+a+"&nv="+b+""
+
+	}	
+  
+  // alert(url2f)	
+	console.log(url2f)
+	
+	fetch(url2f)
+	location.reload()
+}
+
+function alf(x)
+{
+	//x.style.background="pink"	
+	console.log("alf")
+	if (loca=="http://localhost")
+	{
+		url="http://localhost/D4Maia/Data exposure/api/api4scat.php?nome='"+x+"'";
+	}
+	else
+	{
+	url="https://baze.cm-maia.pt/BaZe/api/api4scat.php?nome="+x;
+	if (xav!=null)
+		url=url+"&xav="+xav;
+	}//url="http://d4m.atwebpages.com/api/api4s.php";
+		
+	console.log("url:"+url)
+
+	$.getJSON(url, function(r){
+
+		rs=JSON.parse(JSON.stringify(r))
+	//	console.log("rs:", rs)
+
+		// xdem.php?nome=nome&nv=0008231g
+		rs=r
+
+		th=document.getElementById("tc")
+		while (th.rows.length>0)
+		{		th.deleteRow(0)
+		}
+
+		edik = rs.edi=="True"?true:false
+		//alert (edik)
+
+
+
+		acp=document.createElement("TD"); acp.innerHTML="Sigla/nome curto"
+		acv=document.createElement("TD"); 
+
+		if (edik)
+		{
+				dumel=document.createElement("input")
+				dumel.value=rs.nome 
+				dumel.pnome="nome"
+				dumel.rit=rs.rit
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+				acv.appendChild(dumel)
+		}
+		else	acv.innerHTML=rs.nome
+		
+
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+		acp=document.createElement("TD"); 		acp.innerHTML="Indicador/"		
+		acv=document.createElement("TD"); 	
+
+		if (edik)
+		{
+				dumel=document.createElement("input")
+				dumel.value=rs.descrição 
+				dumel.size=120
+				dumel.pnome="descri"
+				dumel.rit=rs.rit
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+				acv.appendChild(dumel)
+		}
+		else	acv.innerHTML=rs.descrição
+		
+
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+		acp=document.createElement("TD"); 		acp.innerHTML="Descrição Detalhada"
+		acv=document.createElement("TD"); 		
+
+		if (edik)
+		{
+				dumel=document.createElement("input")
+				dumel.value=rs['descrição detalhada'] 
+				dumel.size=120
+				dumel.pnome="DescriPlus"
+				dumel.rit=rs.rit
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+				acv.appendChild(dumel)
+		}
+		else
+		acv.innerHTML=rs['descrição detalhada']
+
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+//		if "TEMA" in rs
+
+//		if ((rs.TEMA !=null) || (8==0))
+	ar=	document.createElement("TR"); 
+
+
+			acp=document.createElement("TD"); 		//acp.innerHTML=rs.TEMA
+			acp.innerHTML="Tema"
+			acv=document.createElement("TD"); 	
+
+		if (edik)
+		{
+			zelec=document.createElement("select")
+			zelec.type="select"
+			opc=document.createElement("option")
+			opc.value="ASSSIM"
+			opc.innerHTML="ASSIM"
+			zelec.appendChild(opc)
+			asel.pnome="tema"
+			asel.rit=rs.rit
+			//rs.TEMA="Ambiente"
+
+			for (kh=0;kh< asel.childElementCount;kh++)
+			{	//console.log(asel.children[kh].value, rs.TEMA)
+				if (rs.TEMA==asel.children[kh].value)
+				asel.children[kh].selected=true
+			}
+			asel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+
+			acv.appendChild(asel)
+
+		}
+		else
+		acv.innerHTML=	rs['TEMA']	
+
+		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+		acp=document.createElement("TD"); 		acp.innerHTML="Forma de Cálculo"
+		acv=document.createElement("TD");
+
+
+		if (edik)
+		{
+				dumel=document.createElement("textarea")
+				dumel.value=rs['Forma de cálculo'] 
+				//dumel.setProperty("width", '120px;');
+
+				dumel.pnome="FormaCalculo"
+				dumel.rit=rs.rit
+				dumel.id='FormaCalculoId'
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			    dumel.size=120
+				dumel.width='97%'
+				dumel.width='120px;'
+				dumel.style.width='120px;';
+				dumel.style.setProperty("width", '120px;');
+				
+				acv.appendChild(dumel)
+		}
+		else
+ 		acv.innerHTML=rs['Forma de cálculo']
+		
+
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+		acp=document.createElement("TD"); 		acp.innerHTML="Fonte <img src='./pics/QuestionMark.PNG' width=16  title='Entidade onde nós fomos buscar os dados (INE, Pordata, SMAS, etc)'>"
+		acv=document.createElement("TD"); 		
+
+		if (edik)
+		{
+				dumel=document.createElement("input")
+				dumel.value=rs['fonte']
+				dumel.size=120
+				dumel.pnome="fonte"
+				dumel.rit=rs.rit
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+				acv.appendChild(dumel)
+		}
+		else
+		acv.innerHTML=rs['fonte']
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+		acp=document.createElement("TD"); 		acp.innerHTML="Origem <img src='./pics/QuestionMark.PNG' width=16 title='entidade que “cria” os dados'> "
+		acv=document.createElement("TD"); 		
+
+
+		if (edik)
+		{
+				dumel=document.createElement("input")
+				dumel.value=rs['Origem dos dados']
+				dumel.size=120
+				dumel.pnome="origem"
+				dumel.rit=rs.rit
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+				acv.appendChild(dumel)
+		}
+		else
+		acv.innerHTML=rs['Origem dos dados']
+
+
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+		acp=document.createElement("TD"); 		
+		//acp.innerHTML="Medida de análise"
+		
+			anp =	document.createElement("span")
+			anp.innerHTML = "&nbsp;  Medida de análise"
+
+	  	acv=document.createElement("TD"); 		
+
+
+		if (edik)
+		{ //alert("pausa")
+
+			zelec=document.createElement("select")
+			zelec.type="select"
+			opc=document.createElement("option")
+			opc.value="ASSSIM"
+			opc.innerHTML="ASSIM"
+			zelec.appendChild(opc)
+			asel2.pnome="MedidaAnalise"
+			asel2.rit=rs.rit
+
+			for (kh=0;kh< asel2.childElementCount;kh++)
+			{	console.log("???",asel2.children[kh].value, rs['Medida de Análise'])
+				if (rs['Medida de Análise']==asel2.children[kh].value)
+				asel2.children[kh].selected=true
+			}
+
+			asel2.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+
+//			acv.appendChild(anp)
+//			acv.appendChild(asel2)
+
+
+//				dumel=document.createElement("input")
+// 			dumel.value=rs['Medida de Análise'] 
+//				dumel.size=120
+//				dumel.pnome="MedidaAnalise"
+//				dumel.rit=rs.rit
+
+//				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+///				acv.appendChild(dumel)
+		}
+		else
+		acv.innerHTML=rs['Medida de Análise']
+		
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+	//	th.appendChild(ar)	
+
+		acp=document.createElement("TD"); //		acp.innerHTML="~ões territoriais"
+		acv=document.createElement("TD"); 	
+
+		anp2=document.createElement("span")
+		anp2.innerHTML="  Divisões territoriais	"
+		if (edik)
+		{
+
+			zelec=document.createElement("select")
+			zelec.type="select"
+			opc=document.createElement("option")
+			opc.value="ASSSIM"
+			opc.innerHTML="ASSIM"
+			zelec.appendChild(opc)
+			asel3.pnome="DivTerrit"
+			asel3.rit=rs.rit
+
+			for (kh=0;kh< asel3.childElementCount;kh++)
+			{	//console.log("???",asel2.children[kh].value, rs['Medida de Análise'])
+				if (rs['Divisões territoriais']==asel3.children[kh].value)
+				asel3.children[kh].selected=true
+			}
+
+			asel3.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+
+			acv.appendChild(anp2)
+			acv.appendChild(asel3)
+
+			acv.appendChild(anp)
+			acv.appendChild(asel2)
+
+
+/*
+				dumel=document.createElement("input")
+				dumel.value=rs['Divisões territoriais']
+				dumel.size=120
+				dumel.pnome="DivTerrit"
+				dumel.rit=rs.rit
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }			
+				acv.appendChild(dumel)
+*/	
+		}
+		else
+		acv.innerHTML=rs['Divisões territoriais']
+		
+		
+
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+		acp=document.createElement("TD"); 		//acp.innerHTML="Periodicidade de actualização"
+		acv=document.createElement("TD"); 		
+
+		anp2=document.createElement("span")
+		anp2.innerHTML=" Periodicidade de Actualização:"
+
+		if (edik)
+		{
+
+			zelec=document.createElement("select")
+			zelec.type="select"
+			opc=document.createElement("option")
+			opc.value="ASSSIM"
+			opc.innerHTML="ASSIM"
+			zelec.appendChild(opc)
+			asel4.pnome="PeriodActual"
+			asel4.rit=rs.rit
+
+			for (kh=0;kh< asel4.childElementCount;kh++)
+			{	//console.log("???",asel2.children[kh].value, rs['Medida de Análise'])
+				if (rs['Periodicidade de actualização']==asel4.children[kh].value)
+				asel4.children[kh].selected=true
+			}
+
+			asel4.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+
+		//	acv.appendChild(anp)
+		//	acv.appendChild(asel4)
+
+
+
+/*				dumel=document.createElement("input")
+				dumel.value=rs['Periodicidade de actualização']
+				dumel.size=120
+				dumel.pnome="PeriodActual"
+				dumel.rit=rs.rit
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+				acv.appendChild(dumel) */
+		}
+		else
+		acv.innerHTML=rs['Periodicidade de actualização']
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		//th.appendChild(ar)	
+
+		acp=document.createElement("TD"); 		
+		//acp.innerHTML="Forma de actualização"
+		acv=document.createElement("TD"); 		
+		anp=document.createElement("span")
+		anp.innerHTML=" Forma de actualização:"
+		if (edik)
+		{
+
+
+			zelec=document.createElement("select")
+			zelec.type="select"
+			opc=document.createElement("option")
+			opc.value="ASSSIM"
+			opc.innerHTML="ASSIM"
+			zelec.appendChild(opc)
+			asel5.pnome="FormaActual"
+			asel5.rit=rs.rit
+
+			for (kh=0;kh< asel5.childElementCount;kh++)
+			{	//console.log("???",asel2.children[kh].value, rs['Medida de Análise'])
+				if (rs['Forma de actualização']==asel5.children[kh].value)
+					asel5.children[kh].selected=true
+			}
+
+			asel5.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+
+  		acv.appendChild(anp)
+			acv.appendChild(asel5)
+
+			acv.appendChild(anp2)
+			acv.appendChild(asel4)
+
+/*				dumel=document.createElement("input")
+				dumel.value=rs['Forma de actualização']
+				dumel.size=120
+				dumel.pnome="FormaActual"
+				dumel.rit=rs.rit
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+				acv.appendChild(dumel) */
+
+		}
+		else
+		acv.innerHTML=rs['Forma de actualização']
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+		acp=document.createElement("TD"); 		
+		//acp.innerHTML="Observações<input type=button onclick='OIxang()' value='...'>"
+		acp.innerHTML="Observações"
+		acv=document.createElement("TD"); 		
+
+
+		if (edik)
+		{
+				dumel=document.createElement("textarea")
+				dumel.value=rs['ObserIntern']
+				dumel.size=120
+				dumel.pnome="ObserIntern"
+				dumel.rit=rs.rit
+				dumel.id="ObserInternId"
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+				acv.appendChild(dumel)
+		}
+		else
+		acv.innerHTML="kjjkj"
+		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
+		th.appendChild(ar)	
+
+
+
+		acp=document.createElement("TD"); acp.innerHTML="Editor"
+		acv=document.createElement("TD"); 
+
+
+		if (edik)
+		{
+
+
+			zelec=document.createElement("select")
+			zelec.type="select"
+			opc=document.createElement("option")
+			opc.value="ASSSIM"
+			opc.innerHTML="ASSIM"
+			zelec.appendChild(opc)
+			asel6.pnome="editor"
+			asel6.rit=rs.rit
+
+			for (kh=0;kh< asel6.childElementCount;kh++)
+			{	//console.log("???",asel2.children[kh].value, rs['Medida de Análise'])
+				if (rs['Editor/Pessoa de Contacto']==asel6.children[kh].value)
+					asel6.children[kh].selected=true
+			}
+
+			asel6.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+
+
+/*
+
+				dumel=document.createElement("input")
+				dumel.value=rs['Editor/Pessoa de Contacto']
+				dumel.size=120
+				dumel.pnome="editor"
+				dumel.rit=rs.rit
+				// dumel.id="ObserInternId"
+
+				dumel.onchange=function(){ cxdem(this.rit, this.pnome, this.value) }
+			
+				acv.appendChild(dumel)
+*/		
+			acv.appendChild(asel6)
+
+		}
+		else
+			acv.innerHTML=rs['Editor/Pessoa de Contacto']
+
+
+		ar=	document.createElement("TR"); 		ar.appendChild(acp);		ar.appendChild(acv);
+		th.appendChild(ar)	
+
+
+
+
+
+		u2i = 'https://baze.cm-maia.pt/BaZe/gstat.htm?e0='+rs.nome+"&modo=pack"
+		console.log(u2i)
+
+		if (xart=="on")
+		{ 
+			sz=document.getElementById("preview");
+			sz.style.height=(window.innerHeight -  document.getElementById("tc").clientHeight-45)+"px"
+			sz.src=u2i
+
+			sz2=document.getElementById("rai");
+			sz2.style.height=(window.innerHeight -85)+"px"
+		}
+		})
+
+
+
+tinymce.init({
+    selector: '#FormaCalculoId',
+	menubar:false,
+	toolbar:false,
+		height:200,
+   skin: 'oxide',
+   onchange_callback : "FCxang",
+ setup: function (ed) {
+        ed.on("change", function () {
+            FCxang(ed);
+        })
+    }
+    
+});
+
+tinymce.init({
+  selector: '#ObserInternId',
+   skin: 'oxide',
+	toolbar:false,
+		height:200,
+   onchange_callback : "OIxang",
+  // menu:false
+	//	menubar: 'file edit insert view format table tools help'
+/*	 menubar: {
+//    file: false,
+
+/*
+     { title: 'File', items: 'newdocument restoredraft | preview | export print | deleteallconversations' }, 
+    edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' }, 
+    view: { title: 'View', items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments' }, */
+//    insert: { title: 'Insert', items: 'image link media addcomment pageembed template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime' },
+
+  //  insert: { title: 'Insert', items: 'link' },
+
+
+//    format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat' },
+ //   tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | a11ycheck code wordcount' },
+ //   table: { title: 'Table', items: 'inserttable | cell row column | advtablesort | tableprops deletetable' },
+  //  help: { title: 'Help', items: 'help' }
+  
+//},
+
+menubar:false,
+		height:200,
+ setup: function (ed) {
+        ed.on("change", function () {
+            OIxang(ed);
+        })
+    }
+
+});
+
+}
+
+function OIxang(inst)
+{ 
+  //alert(inst.getBody().innerHTML)	
+	cxdem(document.getElementById("ObserInternId").rit, "ObserIntern",  inst.getBody().innerHTML.replaceAll('"', "´").replaceAll("'", "´"))
+}
+
+function FCxang(inst)
+{
+  //alert(inst.getBody().innerHTML)	
+	cxdem(document.getElementById("FormaCalculoId").rit, "FormaCalculo",  inst.getBody().innerHTML.replaceAll('"', "´").replaceAll("'", "´"))
+}
+
+
+function toggle(x)
+{		console.log("toggle..")
+
+	document.getElementById(x).style.display=document.getElementById(x).style.display=='none'?document.getElementById(x).style.display='':document.getElementById(x).style.display='none'
+}
+
+function laite()
+{
+		console.log("laite!!")
+}		
+
+</script>
+
+<body style='width:90%;max-width:1700px;font-family:montserrat;' onload="lecat()" align=center><center>
+
+		<table id=ot style='width:98%;height: 98%;' border="1" cellspacing="0">
+		<tr><td id=cli style="max-width:300px;width:300px;" valign="top"><br>
+			<center>
+<!--			<input type="text" value="..."> <input type=button value=Pesquisa onclick="laite()" >
+-->
+
+</center>
+<b>Lista de indicadores</b>
+			<ol id=rai style='overflow:auto ;width:250px;max-width: 250px;font-size: 13px;height: 100%;'>
+			<!--	<li onclick="toggle('mju');">jkjkj<ol id=mju><li>3435sflkjlkj<li onfocusin="alf();" onmouseover="alf()" onfocus="alf()">433535lkjlkj</ol>			 -->
+			</oL>
+<td valign="top"><center><b>Ficha técnica</b>
+	<table style='width:98%;margin: 2px;font-size: 12px;' cellspacing="0" border=1 id="tc" cellspacing="0">
+			<!--<tr><td>-->
+	</table>
+
+	<iframe id=preview style='width:98%;border:0;'></iframe>
+	</table>
+</body>
+<script>
+
+rah =document.getElementById("rai")
+
+for (k in lis)
+{	ali=document.createElement("LI")
+	ali.text="lklk"
+	ali.id="ps"+k
+	ali.title="ps"+k
+	ali.innerHTML=lis[k]
+	dk='s'+k
+
+	alo=document.createElement("UL")
+	alo.id="s"+k
+	alo.style.display="none";
+	alo.style.paddingleft="5px";
+	alo.style.setProperty("padding-left","5px");
+
+
+	ali.onclick=function(){toggle(this.children[0].id)}
+	
+	ali.appendChild(alo)
+
+	rah.appendChild(ali)
+}
+
+
+
+
+</script>
+
+</head>
