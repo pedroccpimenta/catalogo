@@ -19,7 +19,7 @@ full url examples:
 ![without parameters](./pics/Slide2.png "without parameters")
 
 [https://baze.cm-maia.pt/BaZe/catalogo2.htm?e0=NInstCult](https://baze.cm-maia.pt/BaZe/catalogo2.htm?e0=NInstCult)
-![without parameters](./pics/Slide3.png "defining series' name (e0)")
+![without parameters]("./pics/Slide3.png" "defining series' name (e0)")
 
 
 ## Main tasks
