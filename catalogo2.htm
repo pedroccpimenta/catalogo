@@ -22,7 +22,6 @@ textarea {
  }
 </style>
 
-
 <!-- HTML rich editor -->
 <script src="https://cdn.tiny.cloud/1/wy9ut1pk6p5workp921xyvul6jn01kkr160y4y9w45anfroa/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
@@ -39,18 +38,18 @@ var lis
 var sle
 lis=[		"Acção Social", "Administração Pública e Serviços", "Ambiente", "Cultura e Património",
 			"Economia", "Educação", "Energia", "Habitação", "Lazer e Desporto", "Mobilidade",
-			"Planeamento Urbano", "População", "Saúde", "Segurança" ,"Outros"]
+			"Planeamento Urbano", "População", "Saúde", "Segurança" ,"Outros", ""]
 
 
-lis2=[ "número", "%", "&permil;", "m2", "m3", "km2", "km3", "metro (linear)", "euro (€)", "kWh", "ºC", "db(A)", "Ton", "&micro;g/m3", "minutos", "mm:ss" ]
+lis2=[ "número", "%", "&permil;", "m2", "m3", "km2", "km3", "metro (linear)", "euro (€)", "kWh", "ºC", "db(A)", "Ton", "&micro;g/m3", "minutos", "mm:ss", "" ]
 
-lis3=[ "freguesia", "concelho", "NUTS III", "NUTS II", "NUTS I", "outros (...)" ]
+lis3=[ "freguesia", "concelho", "NUTS III", "NUTS II", "NUTS I", "outros (...)", "" ]
 
-lis4=[ "trimestral", "semestral", "anual", "mensal", "diário","ad-hoc" ]
+lis4=[ "trimestral", "semestral", "anual", "mensal", "diário","ad-hoc", "" ]
 
-lis5 = ["manual", "REST API", "acesso de leitura DB", "ficheiro manual", "ficheiro automático"]
+lis5 = ["manual", "REST API", "acesso de leitura DB", "ficheiro manual", "ficheiro automático", ""]
 
-lis6 = ["sofia.maia@cm-maia.pt", "marcia.batists@cm-maia.pt", "bruno.figueiredo@cm-maia.pt", "emanuel.ferreira@cm-maia.pt", "não atribuído"]
+lis6 = ["sofia.maia@cm-maia.pt", "marcia.batists@cm-maia.pt", "bruno.figueiredo@cm-maia.pt", "emanuel.ferreira@cm-maia.pt", "não atribuído", ""]
 
 
 
@@ -125,7 +124,6 @@ var e0
 var be
 function lecat()
 {	
-
 	// sets layout dimensions
 	altura=window.innerHeight
 	document.getElementById("ot").style.height=(altura*1-80)+"px"
@@ -141,9 +139,14 @@ function lecat()
 	xav = es.get('x')
 	xart=es.get("chart")	
 
+	if (xart!=null)
+	xart=es.get("chart").toLowerCase()
+
+
+
 	// Setting charting on / off
-	if (xart!=null)	xart=es.get("chart").toLowerCase()
-	if (xart!="off") xart="on"
+	if (xart!="off")
+		xart="on"
 
 	if (loca=="http://localhost")
 	{
@@ -163,11 +166,10 @@ function lecat()
 
 		if (xav!=null)
 		url=url+"&xav="+xav;
-
 	}
+
 	// old host
-	// url="http://d4m.atwebpages.com/api/api4s.php";
-	
+	//url="http://d4m.atwebpages.com/api/api4s.php";
 	urlth=url
 	//console.log("urlth"+url)
 
@@ -218,10 +220,10 @@ function lecat()
 
 	})
 }
+////////////////////-----------------Função que chama o php que escreve na bd-----------------////////////////////
 
-function cxdem(rit, a, b)
+function cxdem(rit, a, b) //rit = id, a = nome do campo, b = atributo do campo -> Exemplo - rit = 262, a = PeriodActual, b = mensal
 {
-
 	if (loca=="http://localhost")
 	{
 		url2f = "../Data exposure/api/xdem.php?nome="+a+"&nv="+b+""
@@ -233,16 +235,18 @@ function cxdem(rit, a, b)
 	}	
   
   // alert(url2f)	
-	console.log(url2f)
+	// console.log(url2f)
 	
 	fetch(url2f)
-	location.reload()
+	// location.reload() //atualiza a pagina
+	
 }
 
 function alf(x)
 {
+	//verifica se está a correr localmente ou se está invocar as APIs ao server
+
 	//x.style.background="pink"	
-	console.log("alf")
 	if (loca=="http://localhost")
 	{
 		url="http://localhost/D4Maia/Data exposure/api/api4scat.php?nome='"+x+"'";
@@ -254,12 +258,10 @@ function alf(x)
 		url=url+"&xav="+xav;
 	}//url="http://d4m.atwebpages.com/api/api4s.php";
 		
-	console.log("url:"+url)
-
 	$.getJSON(url, function(r){
 
 		rs=JSON.parse(JSON.stringify(r))
-	//	console.log("rs:", rs)
+	
 
 		// xdem.php?nome=nome&nv=0008231g
 		rs=r
@@ -269,16 +271,19 @@ function alf(x)
 		{		th.deleteRow(0)
 		}
 
+		//verifica se o json foi invocado com permissao de edição
 		edik = rs.edi=="True"?true:false
 		//alert (edik)
 
 
+		////////////////////-----------------"Sigla/nome curto"-----------------////////////////////
 
 		acp=document.createElement("TD"); acp.innerHTML="Sigla/nome curto"
 		acv=document.createElement("TD"); 
 
 		if (edik)
 		{
+				
 				dumel=document.createElement("input")
 				dumel.value=rs.nome 
 				dumel.pnome="nome"
@@ -289,10 +294,12 @@ function alf(x)
 				acv.appendChild(dumel)
 		}
 		else	acv.innerHTML=rs.nome
-		
 
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 		th.appendChild(ar)	
+
+
+		////////////////////-----------------Indicador-----------------////////////////////
 
 		acp=document.createElement("TD"); 		acp.innerHTML="Indicador/"		
 		acv=document.createElement("TD"); 	
@@ -310,10 +317,12 @@ function alf(x)
 				acv.appendChild(dumel)
 		}
 		else	acv.innerHTML=rs.descrição
-		
 
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 		th.appendChild(ar)	
+
+
+		////////////////////-----------------Descrição Detalhada-----------------////////////////////
 
 		acp=document.createElement("TD"); 		acp.innerHTML="Descrição Detalhada"
 		acv=document.createElement("TD"); 		
@@ -342,6 +351,8 @@ function alf(x)
 	ar=	document.createElement("TR"); 
 
 
+		////////////////////-----------------TEMA-----------------////////////////////
+
 			acp=document.createElement("TD"); 		//acp.innerHTML=rs.TEMA
 			acp.innerHTML="Tema"
 			acv=document.createElement("TD"); 	
@@ -369,10 +380,13 @@ function alf(x)
 
 		}
 		else
-		acv.innerHTML=	rs['TEMA']	
+		acv.innerHTML=	rs['TEMA']
 
 		ar.appendChild(acp); ar.appendChild(acv)		
 		th.appendChild(ar)	
+
+
+		////////////////////-----------------Forma de Cálculo-----------------////////////////////
 
 		acp=document.createElement("TD"); 		acp.innerHTML="Forma de Cálculo"
 		acv=document.createElement("TD");
@@ -399,10 +413,12 @@ function alf(x)
 		}
 		else
  		acv.innerHTML=rs['Forma de cálculo']
-		
 
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 		th.appendChild(ar)	
+
+
+		////////////////////-----------------Fonte-----------------////////////////////	
 
 		acp=document.createElement("TD"); 		acp.innerHTML="Fonte <img src='./pics/QuestionMark.PNG' width=16  title='Entidade onde nós fomos buscar os dados (INE, Pordata, SMAS, etc)'>"
 		acv=document.createElement("TD"); 		
@@ -421,8 +437,12 @@ function alf(x)
 		}
 		else
 		acv.innerHTML=rs['fonte']
+
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 		th.appendChild(ar)	
+
+
+		////////////////////-----------------Origem-----------------////////////////////	
 
 		acp=document.createElement("TD"); 		acp.innerHTML="Origem <img src='./pics/QuestionMark.PNG' width=16 title='entidade que “cria” os dados'> "
 		acv=document.createElement("TD"); 		
@@ -443,9 +463,11 @@ function alf(x)
 		else
 		acv.innerHTML=rs['Origem dos dados']
 
-
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 		th.appendChild(ar)	
+
+
+		////////////////////-----------------Medida de análise-----------------////////////////////	
 
 		acp=document.createElement("TD"); 		
 		//acp.innerHTML="Medida de análise"
@@ -469,7 +491,7 @@ function alf(x)
 			asel2.rit=rs.rit
 
 			for (kh=0;kh< asel2.childElementCount;kh++)
-			{	console.log("???",asel2.children[kh].value, rs['Medida de Análise'])
+			{	//console.log("???",asel2.children[kh].value, rs['Medida de Análise'])
 				if (rs['Medida de Análise']==asel2.children[kh].value)
 				asel2.children[kh].selected=true
 			}
@@ -492,9 +514,12 @@ function alf(x)
 		}
 		else
 		acv.innerHTML=rs['Medida de Análise']
-		
+
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 	//	th.appendChild(ar)	
+
+
+	////////////////////-----------------Divisões territoriais-----------------////////////////////
 
 		acp=document.createElement("TD"); //		acp.innerHTML="~ões territoriais"
 		acv=document.createElement("TD"); 	
@@ -503,7 +528,7 @@ function alf(x)
 		anp2.innerHTML="  Divisões territoriais	"
 		if (edik)
 		{
-
+			// console.log("acv:", rs['Divisões territoriais '])
 			zelec=document.createElement("select")
 			zelec.type="select"
 			opc=document.createElement("option")
@@ -541,16 +566,17 @@ function alf(x)
 		else
 		acv.innerHTML=rs['Divisões territoriais']
 		
-		
-
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 		th.appendChild(ar)	
+
+
+		////////////////////-----------------Periodicidade de Actualização-----------------////////////////////	
 
 		acp=document.createElement("TD"); 		//acp.innerHTML="Periodicidade de actualização"
 		acv=document.createElement("TD"); 		
 
 		anp2=document.createElement("span")
-		anp2.innerHTML=" Periodicidade de Actualização:"
+		anp2.innerHTML=" Periodicidade de Actualização "
 
 		if (edik)
 		{
@@ -589,14 +615,18 @@ function alf(x)
 		}
 		else
 		acv.innerHTML=rs['Periodicidade de actualização']
+
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 		//th.appendChild(ar)	
+
+
+		////////////////////-----------------Forma de actualização-----------------////////////////////
 
 		acp=document.createElement("TD"); 		
 		//acp.innerHTML="Forma de actualização"
 		acv=document.createElement("TD"); 		
 		anp=document.createElement("span")
-		anp.innerHTML=" Forma de actualização:"
+		anp.innerHTML=" Forma de actualização "
 		if (edik)
 		{
 
@@ -637,8 +667,12 @@ function alf(x)
 		}
 		else
 		acv.innerHTML=rs['Forma de actualização']
+
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 		th.appendChild(ar)	
+
+
+		////////////////////-----------------Observações-----------------////////////////////	
 
 		acp=document.createElement("TD"); 		
 		//acp.innerHTML="Observações<input type=button onclick='OIxang()' value='...'>"
@@ -660,11 +694,13 @@ function alf(x)
 				acv.appendChild(dumel)
 		}
 		else
-		acv.innerHTML="kjjkj"
+		acv.innerHTML=""
+
 		ar=	document.createElement("TR"); 		ar.appendChild(acp); ar.appendChild(acv)		
 		th.appendChild(ar)	
 
 
+		////////////////////-----------------Editor-----------------////////////////////	
 
 		acp=document.createElement("TD"); acp.innerHTML="Editor"
 		acv=document.createElement("TD"); 
@@ -720,7 +756,7 @@ function alf(x)
 
 
 		u2i = 'https://baze.cm-maia.pt/BaZe/gstat.htm?e0='+rs.nome+"&modo=pack"
-		console.log(u2i)
+		// console.log(u2i)
 
 		if (xart=="on")
 		{ 
@@ -806,6 +842,7 @@ function toggle(x)
 {		console.log("toggle..")
 
 	document.getElementById(x).style.display=document.getElementById(x).style.display=='none'?document.getElementById(x).style.display='':document.getElementById(x).style.display='none'
+
 }
 
 function laite()
